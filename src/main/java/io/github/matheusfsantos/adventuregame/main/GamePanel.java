@@ -2,6 +2,7 @@ package io.github.matheusfsantos.adventuregame.main;
 
 import io.github.matheusfsantos.adventuregame.entity.Player;
 import io.github.matheusfsantos.adventuregame.entity.PlayerDirection;
+import io.github.matheusfsantos.adventuregame.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,13 +13,14 @@ public class GamePanel extends JPanel implements Runnable {
     private final Integer ORIGINAL_TILE_SIZE = 16; /* 16 x 16 */
 
     public final Integer TILE_SIZE = this.ORIGINAL_TILE_SIZE * this.SCALE; /* 48 x 48 (16 x 3) */
-    private final Integer MAX_SCREEN_COL = 16;
-    private final Integer MAX_SCREEN_ROW = 12;
+    public final Integer MAX_SCREEN_COL = 16;
+    public final Integer MAX_SCREEN_ROW = 12;
     /* maxScreenCol(16):maxScreenRow(12) == 4:3 (simplified by 2) */
 
     public final Integer SCREEN_WIDTH = this.TILE_SIZE * this.MAX_SCREEN_COL; /* 768px */
     public final Integer SCREEN_HEIGHT = this.TILE_SIZE * this.MAX_SCREEN_ROW; /* 576px */
 
+    private TileManager TILE_MANAGER = new TileManager(this);;
     private Thread GAME_THREAD;
     private final Player PLAYER;
 
@@ -53,6 +55,7 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(graphic);
         Graphics2D graphic2D = (Graphics2D) graphic;
 
+        this.TILE_MANAGER.draw(graphic2D);
         this.PLAYER.draw(graphic2D);
         graphic2D.dispose(); /* To save memory by discarding useless graphic2d variable */
     }
